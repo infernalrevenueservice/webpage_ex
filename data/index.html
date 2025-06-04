@@ -1,18 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>M5StickC Plus</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pleasant Button Page</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Hello World!</h1>
-        <p>Welcome to M5StickC Plus Web Server</p>
-        <p>You are successfully connected to the device!</p>
-        <button class="hello-button" onclick='sayHello()'>Say Hello to M5Stick!</button>
-        <div id="status"></div>
+        <h1>Welcome</h1>
+        <p class="subtitle">Choose your path forward</p>
+        
+        <div class="button-container">
+            <button class="btn btn-primary" onclick="handlePrimaryClick()">
+                Don't Press
+            </button>
+            <button class="btn btn-secondary" onclick="handleSecondaryClick()">
+                Press
+            </button>
+        </div>
     </div>
+
+    <audio id="buttonAudio" preload="auto">
+        <source src="audio/button-click.mp3" type="audio/mpeg">
+        <source src="audio/button-click.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+    <audio id="buttonAudio2" preload="auto">
+        <source src="audio/yay-click.mp3" type="audio/mpeg">
+        <source src="audio/yay-click.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+
     <script src="/script.js"></script>
 </body>
 </html>

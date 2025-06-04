@@ -5,18 +5,18 @@
 #include <FS.h>
 
 // Access Point credentials
-const char* ssid = "M5StickC-AP";
-const char* password = "12345678";
+const char* ssid = "secret evil wifi";
+const char* password = "evil password";
 
 // Create WebServer object on port 80
 WebServer server(80);
 
 // Function declarations
 void handleRoot();
-void handleHello();
 void handleFileRead(String path);
 void handleNotFound();
-void flashScreenAndSayHello();
+void handleNo();
+void handlePress();
 void restoreNormalDisplay();
 String getContentType(String filename);
 
@@ -24,9 +24,14 @@ void handleRoot() {
     handleFileRead("/index.html");
 }
 
-void handleHello() {
-    flashScreenAndSayHello();
-    server.send(200, "text/plain", "Hello sent to M5StickC Plus!");
+void handleNo() {
+    noPress();
+    server.send(200, "text/plain", "you little rebel (ง'̀-'́)ง");
+}
+
+void handlePress() {
+    noPress();
+    server.send(200, "text/plain", "yayyy (⚈∇⚈ )");
 }
 
 void handleFileRead(String path) {
@@ -59,29 +64,50 @@ String getContentType(String filename) {
     return "text/plain";
 }
 
-void flashScreenAndSayHello() {
-    M5.Lcd.fillScreen(BLACK);
+void press() {
+    M5.Lcd.fillScreen(WHITE);
     
     for (int i = 0; i < 3; i++) {
-        M5.Lcd.fillScreen(WHITE);
-        delay(200);
-        M5.Lcd.fillScreen(RED);
-        delay(200);
-        M5.Lcd.fillScreen(GREEN);
-        delay(200);
-        M5.Lcd.fillScreen(BLUE);
-        delay(200);
+        M5.Lcd.fillScreen(PINK);
+        delay(500);
+        M5.Lcd.fillScreen(TFT_MAGENTA);
+        delay(500);
+        M5.Lcd.fillScreen(PURPLE);
+        delay(500);
     }
     
-    M5.Lcd.fillScreen(BLACK);
-    M5.Lcd.setTextColor(YELLOW);
-    M5.Lcd.setTextSize(3);
+    M5.Lcd.fillScreen(TFT_BLUE);
+    M5.Lcd.setTextColor(WHITE);
+    M5.Lcd.setTextSize(2);
     M5.Lcd.setCursor(20, 40);
-    M5.Lcd.println("HELLO!");
+    M5.Lcd.println("good job fremd ^-^ !!!");
     
     delay(2000);
     restoreNormalDisplay();
 }
+
+void noPress() {
+    M5.Lcd.fillScreen(BLACK);
+    
+    for (int i = 0; i < 3; i++) { 
+        M5.Lcd.fillScreen(WHITE);
+        delay(200);
+        M5.Lcd.fillScreen(BLACK);
+        delay(200);
+        M5.Lcd.fillScreen(RED);
+        delay(200);
+    }
+    
+    M5.Lcd.fillScreen(BLACK);
+    M5.Lcd.setTextColor(RED);
+    M5.Lcd.setTextSize(2);
+    M5.Lcd.setCursor(20, 40);
+    M5.Lcd.println("what the heck man >:C");
+    
+    delay(2000);
+    restoreNormalDisplay();
+}
+
 
 void restoreNormalDisplay() {
     M5.Lcd.fillScreen(BLACK);
@@ -153,7 +179,8 @@ void setup() {
     
     // Set up web server routes
     server.on("/", handleRoot);
-    server.on("/hello", handleHello);
+    server.on("/noPress", handleNo);
+    server.on("/press", handlePress);
     server.onNotFound(handleNotFound);
     
     server.begin();
