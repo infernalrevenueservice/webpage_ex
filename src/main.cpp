@@ -17,7 +17,7 @@ void handleFileRead(String path);
 void handleNotFound();
 void handleNo();
 void press();
-void noPress();  // Make sure this line exists
+void noPress();  
 void handlePress();
 void restoreNormalDisplay();
 String getContentType(String filename);
