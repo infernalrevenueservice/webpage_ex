@@ -123,12 +123,12 @@ void restoreNormalDisplay() {
 
 void handleNo() {
     noPress();
-    server.send(200, "text/plain", "you little rebel (ง'̀-'́)ง");
+    server.send(200, "/no", "you little rebel (ง'̀-'́)ง");
 }
 
 void handlePress() {
     press();
-    server.send(200, "text/plain", "yayyy (⚈∇⚈ )");
+    server.send(200, "/press", "yayyy (⚈∇⚈ )");
 }
 
 void setup() {

@@ -1,65 +1,70 @@
 
 function handlePrimaryClick() {
-            const audio = document.getElementById('buttonAudio');
+    const audio = document.getElementById('buttonAudio');
+    
+    // Play audio without waiting
+    if (!audio || !audio.src || audio.error) {
+        playBeepSound(); // Make sure this is non-blocking
+    } else {
+        audio.currentTime = 0;
+        audio.play().catch(e => {
+            console.log('Audio play failed, using beep instead');
+            playBeepSound();
+        });
+    }
+    
+    // Execute the rest immediately
+    executeRestOfFunction();
+    var statusEl = document.getElementById('status');
+    statusEl.innerHTML = 'communicating with le stick...';
             
-            // If no audio file is available, create a beep sound using Web Audio API
-            if (!audio.src || audio.error) {
-                playBeepSound();
-            } else {
-                audio.currentTime = 0; // Reset to beginning
-                audio.play().catch(e => {
-                    console.log('Audio play failed, using beep instead');
-                    playBeepSound();
-                });
-            }
-            var statusEl = document.getElementById('status');
-            statusEl.innerHTML = 'communicating with le stick...';
-            
-            fetch('/no')
-                .then(function(response) {
-                    return response.text();
-                })
-                .then(function(data) {
-                    statusEl.innerHTML = data;
-                    setTimeout(function() {
-                        statusEl.innerHTML = '';
-                    }, 3000);
-                })
-                .catch(function(error) {
-                    statusEl.innerHTML = 'Error: ' + error;
-                });
+    fetch('/no')
+        .then(function(response) {
+            return response.text();
+        })
+        .then(function(data) {
+            statusEl.innerHTML = data;
+            setTimeout(function() {
+                statusEl.innerHTML = '';
+            }, 3000);
+        })
+        .catch(function(error) {
+            statusEl.innerHTML = 'Error: ' + error;
+        });
         
-        }
+}
 
 function handleSecondaryClick() {
-            const audio2 = document.getElementById('buttonAudio2');
+    const audio = document.getElementById('buttonAudio');
+    
+    // Play audio without waiting
+    if (!audio || !audio.src || audio.error) {
+        playOtherBeepSound(); // Make sure this is non-blocking
+    } else {
+        audio.currentTime = 0;
+        audio.play().catch(e => {
+            console.log('Audio play failed, using beep instead');
+            playOtherBeepSound();
+        });
+    }
+    
+    // Execute the rest immediately
+    executeRestOfFunction();
+        var statusEl2 = document.getElementById('status');
+        statusEl2.innerHTML = 'communicating with le stick...';
             
-            // If no audio file is available, create a beep sound using Web Audio API
-            if (!audio2.src || audio2.error) {
-                playBeepSound();
-            } else {
-                audio2.currentTime = 0; // Reset to beginning
-                audio2.play().catch(e => {
-                    console.log('Audio play failed, using beep instead');
-                    playBeepSound();
-                    
-                });
-            }
-            var statusEl = document.getElementById('status');
-            statusEl.innerHTML = 'communicating with le stick...';
-            
-            fetch('/press')
-                .then(function(response) {
-                    return response.text();
+        fetch('/press')
+            .then(function(response) {
+                return response.text();
                 })
                 .then(function(data) {
-                    statusEl.innerHTML = data;
+                    statusEl2.innerHTML = data;
                     setTimeout(function() {
-                        statusEl.innerHTML = '';
+                        statusEl2.innerHTML = '';
                     }, 3000);
                 })
                 .catch(function(error) {
-                    statusEl.innerHTML = 'Error: ' + error;
+                    statusEl2.innerHTML = 'Error: ' + error;
                 });
         }
 
@@ -121,7 +126,7 @@ function handleSecondaryClick() {
                 gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
                 
                 oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.2);
+                oscillator.stop(audioContext.currentTime + 0.4);
             } catch (error) {
                 console.log('Web Audio API not supported');
             }
