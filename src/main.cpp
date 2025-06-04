@@ -16,22 +16,14 @@ void handleRoot();
 void handleFileRead(String path);
 void handleNotFound();
 void handleNo();
+void press();
+void noPress();  // Make sure this line exists
 void handlePress();
 void restoreNormalDisplay();
 String getContentType(String filename);
 
 void handleRoot() {
     handleFileRead("/index.html");
-}
-
-void handleNo() {
-    noPress();
-    server.send(200, "text/plain", "you little rebel (ง'̀-'́)ง");
-}
-
-void handlePress() {
-    noPress();
-    server.send(200, "text/plain", "yayyy (⚈∇⚈ )");
 }
 
 void handleFileRead(String path) {
@@ -127,6 +119,16 @@ void restoreNormalDisplay() {
     M5.Lcd.println(WiFi.softAPIP());
     M5.Lcd.setCursor(0, 70);
     M5.Lcd.println("Server: Ready");
+}
+
+void handleNo() {
+    noPress();
+    server.send(200, "text/plain", "you little rebel (ง'̀-'́)ง");
+}
+
+void handlePress() {
+    press();
+    server.send(200, "text/plain", "yayyy (⚈∇⚈ )");
 }
 
 void setup() {
