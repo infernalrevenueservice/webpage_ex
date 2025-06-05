@@ -1,32 +1,32 @@
 
 function handlePrimaryClick() {
-    const audio = document.getElementById('buttonAudio');
+
+    console.log("primary clicked!")
+    const audio_sample = document.getElementById('buttonAudio');
+    console.log("audio_sample status: " + audio_sample)
+    console.log("audio_sample source: " + audio_sample.src)
+    console.log("audio_sample error: " + audio_sample.error)
     
-    // Play audio without waiting
-    if (!audio || !audio.src || audio.error) {
+    // Play audio_sample without waiting
+    if (!audio_sample || audio_sample.error) {
         playBeepSound(); // Make sure this is non-blocking
     } else {
-        audio.currentTime = 0;
-        audio.play().catch(e => {
+        audio_sample.currentTime = 0;
+        audio_sample.play().catch(e => {
             console.log('Audio play failed, using beep instead');
-            playBeepSound();
         });
     }
     
-    // Execute the rest immediately
-    executeRestOfFunction();
-    var statusEl = document.getElementById('status');
+    const statusEl = document.getElementById('status');
     statusEl.innerHTML = 'communicating with le stick...';
             
-    fetch('/no')
+    fetch('/noPress')
         .then(function(response) {
             return response.text();
         })
         .then(function(data) {
             statusEl.innerHTML = data;
-            setTimeout(function() {
-                statusEl.innerHTML = '';
-            }, 3000);
+
         })
         .catch(function(error) {
             statusEl.innerHTML = 'Error: ' + error;
@@ -34,60 +34,56 @@ function handlePrimaryClick() {
         
 }
 
+
+
 function handleSecondaryClick() {
-    const audio = document.getElementById('buttonAudio');
+    const audio = document.getElementById('buttonAudio2');
     
     // Play audio without waiting
-    if (!audio || !audio.src || audio.error) {
+    if (!audio || audio.error) {
         playOtherBeepSound(); // Make sure this is non-blocking
     } else {
         audio.currentTime = 0;
         audio.play().catch(e => {
             console.log('Audio play failed, using beep instead');
-            playOtherBeepSound();
         });
     }
-    
-    // Execute the rest immediately
-    executeRestOfFunction();
-        var statusEl2 = document.getElementById('status');
+
+        const statusEl2 = document.getElementById('status');
         statusEl2.innerHTML = 'communicating with le stick...';
             
         fetch('/press')
             .then(function(response) {
                 return response.text();
-                })
-                .then(function(data) {
+            })
+            .then(function(data) {
                     statusEl2.innerHTML = data;
-                    setTimeout(function() {
-                        statusEl2.innerHTML = '';
-                    }, 3000);
-                })
-                .catch(function(error) {
+            })
+            .catch(function(error) {
                     statusEl2.innerHTML = 'Error: ' + error;
-                });
+            });
         }
 
 
-        // Add sparkle animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes sparkle {
-                0% {
-                    opacity: 1;
-                    transform: scale(0);
-                }
-                50% {
-                    opacity: 1;
-                    transform: scale(1);
-                }
-                100% {
-                    opacity: 0;
-                    transform: scale(0);
-                }
+    // Add sparkle animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes sparkle {
+            0% {
+                opacity: 1;
+                transform: scale(0);
             }
-        `;
-        document.head.appendChild(style);
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+    `;
+    document.head.appendChild(style);
 
     function playBeepSound() {
             try {

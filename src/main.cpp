@@ -27,7 +27,7 @@ void handleRoot() {
 }
 
 void handleFileRead(String path) {
-    if (path.endsWith("/")) path += "index.html";
+    // if (path.endsWith("/")) path += "index.html";
     
     String contentType = getContentType(path);
     
@@ -53,6 +53,7 @@ String getContentType(String filename) {
     else if (filename.endsWith(".jpg")) return "image/jpeg";
     else if (filename.endsWith(".gif")) return "image/gif";
     else if (filename.endsWith(".ico")) return "image/x-icon";
+    else if (filename.endsWith(".mp3")) return "audio/mpeg";
     return "text/plain";
 }
 
@@ -70,9 +71,9 @@ void press() {
     
     M5.Lcd.fillScreen(TFT_BLUE);
     M5.Lcd.setTextColor(WHITE);
-    M5.Lcd.setTextSize(2);
+    M5.Lcd.setTextSize(1.5);
     M5.Lcd.setCursor(20, 40);
-    M5.Lcd.println("good job fremd ^-^ !!!");
+    M5.Lcd.println("good job fremd ^-^ !");
     
     delay(2000);
     restoreNormalDisplay();
@@ -92,7 +93,7 @@ void noPress() {
     
     M5.Lcd.fillScreen(BLACK);
     M5.Lcd.setTextColor(RED);
-    M5.Lcd.setTextSize(2);
+    M5.Lcd.setTextSize(1.2);
     M5.Lcd.setCursor(20, 40);
     M5.Lcd.println("what the heck man >:C");
     
@@ -122,8 +123,8 @@ void restoreNormalDisplay() {
 }
 
 void handleNo() {
-    noPress();
     server.send(200, "/no", "you little rebel (ง'̀-'́)ง");
+    noPress();
 }
 
 void handlePress() {
